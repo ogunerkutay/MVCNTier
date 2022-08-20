@@ -1,0 +1,69 @@
+﻿@using MVCNTier.BLL.Models.DTOs
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model UpdateGenreDTO
+
+@{
+	Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form action="UpdateGenre" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group  w-100">
+                <label asp-for=Name class="control-label"></label>
+                <input asp-for=Name name="Name" class="form-control" />
+                <span asp-validation-for=Name class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=Description class="control-label"></label>
+                <textarea asp-for=Description name="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for=Description class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update Genre HttpClient" class="btn btn-primary" />
+                <input type="button" onclick="UpdateGenre(@Model.Id)" value="Update Genre Javascript Ajax">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script>
+
+        function UpdateGenre(id) {
+
+            let Id = id;
+            let Name = $("input[name=Name]").val();
+            let Description = $("textarea[name=Description]").val();
+
+            let value = {
+                Id: Id,
+                Name: Name,
+                Description: Description
+            }
+
+
+            $.ajax({
+                contentType: 'application/json;charset=utf-8',
+                method: 'PUT',
+                url: 'https://localhost:44358/api/Genre/UpdateGenre',
+                data: JSON.stringify(value),
+                contentType: "application/json",
+                dataType: "json",
+                success: function () {
+                    window.location.href = "@Url.Action("Index", "Home")";
+                }
+            })
+
+
+        };
+
+
+
+    </script>
+
+}
